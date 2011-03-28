@@ -15,7 +15,7 @@ setup(name='data-gc-ca-api',
     description='Utility for Accessing Environment Canada Data',
     author='Ian Gable',
     author_email='ian@gable.ca',
-    url='https://github.com/igable',
+    url='https://github.com/igable/data-gc-ca-api',
     scripts=['weatherca'],
     packages=['data_gc_ca_api'],
 )
