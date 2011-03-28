@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+# vim: set expandtab ts=4 sw=4:
+
+# Copyright (C) 2011 Ian Gable
+# You may distribute under the terms of either the GNU General Public
+# License or the Apache v2 License, as specified in the README file.
+
+## Auth.: Ian Gable
+
+import sys
+from data_gc_ca_api.cityweather import  City, CityIndex
+from optparse import OptionParser
+
+def main():
+
+
+    parser = OptionParser(usage="%prog -c CITY -q QUANTITY", version = "%prog 0.1")
+
+    parser.add_option("-c", "--city", dest="city",
+                                            help="The City you want information about", metavar="CITY")
+    parser.add_option("-q", "--quantity", dest="quantity",
+                                            help="the particular quatity toy want to know", metavar="QUANTITY")
+    parser.add_option("-l", "--list", action="store_true", dest="list",
+                                            help="Show a list of the available cities")
+    (options, args) = parser.parse_args()
+    (options, args) = parser.parse_args()
+
+    # globals
+    city = "Victoria"
+    quantity = "currentConditions/temperature"
+
+    cityindex = CityIndex()
+
+    if options.list:
+        for cityname in cityindex.getEnglishCityList():
+            print cityname
+        sys.exit(1)
+    if not options.city:
+        print "No City given, using, Victoria, BC (the best city)."
+    else:
+        city = options.city
+    if not options.quantity:
+        print "No requested quantity given, using teperature"
+    else:
+        quantity = options.quantity
+    
+    if cityindex.isCity(city):
+        cityObject = City(cityindex.getDataUrl(city))
+        print quantity + " is " + cityObject.getQuantity(quantity)
+    else:
+        print city + " is not availble"
+
+#    quesnel = City(cityindex.getDataUrl("Quesnel"))
+#    print "Temperature: " + quesnel.getQuantity("currentConditions/temperature")
+
+#    wrong = City("http://somecrap.txt")
+
+#    for city in city_list.getEnglishCityList():
+#        print "English city: " + city + " French city: " + city_list.getFrenchName(city)
+
+if __name__ == "__main__":
+    main()
+
