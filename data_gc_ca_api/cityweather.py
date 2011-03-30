@@ -14,6 +14,8 @@ from xml.etree.ElementTree import ElementTree
 
 class CityIndex:
     def __init__(self):
+        # this class could be changed to pass these two
+        # hardcoded paths in
         self.city_list_url =  "http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/siteList.xml"
         self.base_url = "http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/"
         self.cities = {}
