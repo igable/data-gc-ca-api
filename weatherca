@@ -8,8 +8,40 @@
 ## Auth.: Ian Gable
 
 import sys
+import difflib
+from difflib import SequenceMatcher 
 from data_gc_ca_api.cityweather import  City, CityIndex
 from optparse import OptionParser
+
+
+def getBestGuess(city, cityList):
+    # Find the closest matching city including the case where the  
+    # input city matches a complete sub string. For example the case where 
+    # someone uses "Ottawa" but environment Canada uses the name
+    # "Ottawa (Richmond - Metcalfe)" we want to guess the long string 
+    # rather then the close string Oshawa
+
+     
+    s = SequenceMatcher()
+    s.set_seq1(city)
+    cityLength = len(city)
+    longestMatch = { 'length':0, 'city': None }
+
+    for possibleCity in cityList:
+        s.set_seq2(possibleCity)
+        match = s.find_longest_match(0,len(city),0,len((possibleCity)))
+
+        if match[2] > longestMatch['length']:
+            longestMatch['length'] = match[2]
+            longestMatch['city'] = possibleCity
+
+    if len(city) == longestMatch['length']:
+        return longestMatch['city']
+    else:
+        return difflib.get_close_matches(city,cityList,1)[0]
+
+
+
 
 def main():
 
@@ -49,14 +81,12 @@ def main():
         print quantity + " is " + cityObject.getQuantity(quantity)
     else:
         print city + " is not availble"
+        bestGuess = getBestGuess(city,cityindex.getEnglishCityList())
+        if bestGuess:
+           print "Did you mean: " + bestGuess
+        else:
+           print "Do 'weatherca --list' to get a list of cities"
 
-#    quesnel = City(cityindex.getDataUrl("Quesnel"))
-#    print "Temperature: " + quesnel.getQuantity("currentConditions/temperature")
-
-#    wrong = City("http://somecrap.txt")
-
-#    for city in city_list.getEnglishCityList():
-#        print "English city: " + city + " French city: " + city_list.getFrenchName(city)
 
 if __name__ == "__main__":
     main()
