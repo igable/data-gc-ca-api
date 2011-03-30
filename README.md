@@ -1,10 +1,10 @@
-# data-gc-ca-api 0.1 README
+# data-gc-ca-api 0.2.1 README
 
 ## Introduction
 data-gc-ca-api: a simple python api for the Canada Open Data Portal
 
 The Government of Canada recently released a number of open data sets at the website
-[www.data,gc.ca](http://www.data.gc.ca/).  This simple python package has tools
+[www.data.gc.ca](http://www.data.gc.ca/).  This simple python package has tools
 for accessing the [City Weather](http://goo.gl/Xkcqp) open data set. It could
 be expanded to include more.
 
@@ -40,7 +40,7 @@ Get the wind speed in Ottawa:
 ## Data License
 
 The terms for accessing the data available from the Canada Open Data Portal can
-be found by visiting the [www.data,gc.ca](http://www.data.gc.ca/)
+be found by visiting the [www.data.gc.ca](http://www.data.gc.ca/)
 
 ## Software License
 
