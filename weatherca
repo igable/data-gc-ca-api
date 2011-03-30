@@ -20,7 +20,7 @@ def getBestGuess(city, cityList):
     # input city matches a complete sub string. For example the case where 
     # someone uses "Ottawa" but environment Canada uses the name
     # "Ottawa (Richmond - Metcalfe)" we want to guess the long string 
-    # rather then the close string Oshawa
+    # rather than the close string Oshawa
 
      
     s = SequenceMatcher()
@@ -73,7 +73,7 @@ def main():
     else:
         city = options.city
     if not options.quantity:
-        print "No requested quantity given, using teperature"
+        print "No requested quantity given, using temperature"
     else:
         quantity = options.quantity
     

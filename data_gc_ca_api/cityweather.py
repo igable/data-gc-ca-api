@@ -98,7 +98,7 @@ class City():
     def getQuantity(self,path):
         return self.tree.findtext(path)
 
-    def getAttiribute(self,name,attibute):
+    def getAttribute(self, name, attribute):
         element = self.tree.find(name)
         if attribute in element:
             return element['attribute']
