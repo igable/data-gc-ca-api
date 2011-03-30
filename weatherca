@@ -11,6 +11,7 @@ import sys
 import difflib
 from difflib import SequenceMatcher 
 from data_gc_ca_api.cityweather import  City, CityIndex
+from data_gc_ca_api.__version__ import version
 from optparse import OptionParser
 
 
@@ -46,7 +47,7 @@ def getBestGuess(city, cityList):
 def main():
 
 
-    parser = OptionParser(usage="%prog -c CITY -q QUANTITY", version = "%prog 0.1")
+    parser = OptionParser(usage="%prog -c CITY -q QUANTITY", version = "%prog " + version)
 
     parser.add_option("-c", "--city", dest="city",
                                             help="The City you want information about", metavar="CITY")
