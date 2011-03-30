@@ -104,43 +104,4 @@ class City():
             return None
         
 
-# don't call this it's just left over junk
-# it should be cleaned up
-def main():
-
-    victoria = "http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/BC/s0000735_e.xml"
-    city_list_url = "http://dd.weatheroffice.ec.gc.ca/citypage_weather/xml/siteList.xml"
-    
-    #xmldoc =  urllib.urlopen(victoria)
-    #print xmldoc.read()
-    
-    #weather_path = "currentConditions/temperature"
-    weather_path = "location/country"
-    
-    #tree = ElementTree()
-    #tree.parse(urllib.urlopen(victoria))
-    #weather_property = tree.find(weather_path)
-    
-    #if weather_property is None :
-    #    print "Unable to find the weather property"
-    #    sys.exit(1)
-    
-    
-    
-        
-#    for k, v in cities.iteritems():
-#        print "City Name: " + k
-#        print "   sitecode:" + v['sitecode']
-
-    cityindex = CityIndex()
-    print "Province code: " + cityindex.getProvince("Quesnel")
-    quesnel = City(cityindex.getDataUrl("Victoria"))
-    print "Temperature: " + quesnel.getQuantity("currentConditions/temperature")
-    
-
-#    for city in city_list.getEnglishCityList():
-#        print "English city: " + city + " French city: " + city_list.getFrenchName(city)
-
-if __name__ == "__main__":
-    main()
 
