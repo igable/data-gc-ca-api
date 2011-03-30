@@ -39,44 +39,43 @@ class CityIndex:
                     'nameFr': site.findtext("nameFr").encode('utf-8') }
 
             
-    def isCity(self,name):
-        if name in self.cities:
-            return True
-        else:
-            return False
+    def isCity(self, name):
+        """
+        Returns True iff name is a valid city
+        """
+        return name in self.cities
 
     def getDataUrl(self,name):
+        """
+        Returns resource URL for the city denoted by name
+        """
         if self.isCity(name):
             return self.base_url + self.getProvince(name) + "/" + self.getSiteCode(name) + "_e.xml"
-        else:
-            return None
+        return None
 
     def getProvince(self,name):
+        """
+        Returns Province code (e.g. 'ON', 'BC', etc) of the city denoted by name
+        """
         if self.isCity(name):
             return self.cities[name]['provincecode']
-        else:
-            return None
+        return None
 
     def getSiteCode(self,name):
         if self.isCity(name):
             return self.cities[name]['sitecode']
-        else:
-            return None
+        return None
     
     def getFrenchName(self,name):
         if self.isCity(name):
             return self.cities[name]['nameFr']
-        else:
-            return None
+        return None
 
     def getEnglishCityList(self):
         return self.cities.keys()
 
     def getFrenchCityList(self):
-        frenchList =[]
-        for k, v in self.cities.iteritems():
-            frenchList.append(v['nameFr'])
-        return frenchList
+        return [v['nameFr'] for k, v in self.cities.iteritems()]
 
 
 class City():
@@ -102,8 +101,7 @@ class City():
         element = self.tree.find(name)
         if attribute in element:
             return element['attribute']
-        else:
-            return None
+        return None
         
 
 

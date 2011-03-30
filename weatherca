@@ -68,10 +68,12 @@ def main():
         for cityname in cityindex.getEnglishCityList():
             print cityname
         sys.exit(1)
+    
     if not options.city:
         print "No City given, using, Victoria, BC (the best city)."
     else:
         city = options.city
+        
     if not options.quantity:
         print "No requested quantity given, using temperature"
     else:
@@ -81,7 +83,7 @@ def main():
         cityObject = City(cityindex.getDataUrl(city))
         print quantity + " is " + cityObject.getQuantity(quantity)
     else:
-        print city + " is not availble"
+        print city + " is not available"
         bestGuess = getBestGuess(city,cityindex.getEnglishCityList())
         if bestGuess:
            print "Did you mean: " + bestGuess
