@@ -14,7 +14,7 @@ published in the Environment Canada city XML files. Environment Canada provides
 a [description](http://goo.gl/XD7w4) of what can be accessed but it's far easier
 to look at an example [city XML](http://goo.gl/vyL7r).
 
-## Instalation
+## Installation
 
 This package is available from the [Python Package Index](http://pypi.python.org). It
 can be easily installed using pip as follows
