@@ -1,4 +1,4 @@
-# data-gc-ca-api 0.2.1 README
+# data-gc-ca-api 0.2.2 README
 
 ## Introduction
 data-gc-ca-api: a simple python api for the Canada Open Data Portal
@@ -14,14 +14,27 @@ published in the Environment Canada city XML files. Environment Canada provides
 a [description](http://goo.gl/XD7w4) of what can be accessed but it's far easier
 to look at an example [city XML](http://goo.gl/vyL7r).
 
+## Instalation
+
+This package is available from the [Python Package Index](http://pypi.python.org). It
+can be easily installed using pip as follows
+ 
+    $ pip install data-gc-ca-api
+
+Tarballs of are available from the [project website](https://github.com/igable/data-gc-ca-api).
+To install from a tarball:
+
+    $ tar xzvf data-gc-ca-api-X.Y.Z.tar.gz
+    $ cd data-gc-ca-api-X.Y.Z
+    $ python setup.py install
+
 ## Command line tool: weatherca
 
 This package also includes a command line tool 'weatherca' for quickly getting
 information. It also serves as an example of how to use the data-gc-ca-api
 python module. 
 
-
-Here are some quick examples of how to use the weatherca
+Here are some quick examples of how to use the weatherca:
 
     $ weatherca --help
 
@@ -36,6 +49,11 @@ Show the current temperature in Victoria:
 Get the wind speed in Ottawa:
 
     $ weatherca --city "Ottawa (Richmond - Metcalfe)" --quantity currentConditions/wind/speed
+
+## Contributors
+
+* Ian Gable
+* Johan Harjono
 
 ## Data License
 

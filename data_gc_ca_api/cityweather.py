@@ -41,7 +41,7 @@ class CityIndex:
             
     def isCity(self, name):
         """
-        Returns True iff name is a valid city
+        Returns True if name is a valid city
         """
         return name in self.cities
 
@@ -62,6 +62,10 @@ class CityIndex:
         return None
 
     def getSiteCode(self,name):
+        """
+        Returns the environment canada site for a city. For example Athabasca, AB
+        has the site code s0000001
+        """
         if self.isCity(name):
             return self.cities[name]['sitecode']
         return None
@@ -95,13 +99,35 @@ class City():
         self.tree.parse(urlhandle)
 
     def getQuantity(self,path):
+        """Get the quatity contained at the XML XPath"""
         return self.tree.findtext(path)
 
-    def getAttribute(self, name, attribute):
-        element = self.tree.find(name)
+    def getAttribute(self, path, attribute):
+        """Get the atribute of the element at XPath path"""
+        element = self.tree.find(path)
         if attribute in element:
             return element['attribute']
         return None
         
+    def getAvailableQuantities(self):
+        """Get a list of all the available quatities in the form of their
+        XML XPaths
+        """
 
+        pathlist =[]
+        self._getAllXPaths(pathlist,"",self.tree.getroot())
+        return pathlist
 
+    # This nasty little function recursively traverses
+    # an element tree to get all the available XPaths
+    # you have to pass in the pathlist you want to contain
+    # the list
+    def _getAllXPaths(self, pathlist, path, element):
+        children = element.getchildren()
+        if not children:
+            sys.stdout.write(path + "/"+element.tag + "\n")
+            pathlist.append(path + "/"+element.tag)
+        else:
+            for child in children:
+                self._getAllXPaths(pathlist, path + "/" + element.tag, child)
+        
