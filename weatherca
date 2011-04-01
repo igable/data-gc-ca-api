@@ -39,7 +39,10 @@ def getBestGuess(city, cityList):
     if len(city) == longestMatch['length']:
         return longestMatch['city']
     else:
-        return difflib.get_close_matches(city,cityList,1)[0]
+        bestguess = difflib.get_close_matches(city,cityList,1)
+        if bestguess:
+            return bestguess[0]
+    return None
 
 
 
