@@ -50,6 +50,10 @@ Get the wind speed in Ottawa:
 
     $ weatherca --city "Ottawa (Richmond - Metcalfe)" --quantity currentConditions/wind/speed
 
+Show the list of available retreivable quantities for Edmonton:
+
+    $ weatherca --city Edmonton --list-quantities
+
 ## Contributors
 
 * Ian Gable

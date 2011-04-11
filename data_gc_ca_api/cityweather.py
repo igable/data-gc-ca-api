@@ -8,9 +8,16 @@
 
 import urllib
 import sys
-from xml.etree.ElementTree import ElementTree
 
 
+# If we don't have at least python 2.7 we want to require
+# elementtree which has full XPath support. The 2.7 version
+# of this includes this already.
+
+if float(sys.version[:3]) >= 2.7:
+    from xml.etree.ElementTree import ElementTree
+else:
+    from elementtree.ElementTree import ElementTree
 
 class CityIndex:
     def __init__(self):
@@ -115,7 +122,12 @@ class City():
         """
 
         pathlist =[]
-        self._getAllXPaths(pathlist,"",self.tree.getroot())
+        # we are getting the full XPath with the attribute strings
+        # this output is pretty long so maybe it would be wise
+        # to also have an option to get the XPath without the attributes
+        # self._getAllXPaths(pathlist,"",self.tree.getroot())
+
+        self._getAllXPathsWithAttributes(pathlist,"",self.tree.getroot())
         return pathlist
 
     # This nasty little function recursively traverses
@@ -125,9 +137,62 @@ class City():
     def _getAllXPaths(self, pathlist, path, element):
         children = element.getchildren()
         if not children:
-            sys.stdout.write(path + "/"+element.tag + "\n")
             pathlist.append(path + "/"+element.tag)
         else:
             for child in children:
                 self._getAllXPaths(pathlist, path + "/" + element.tag, child)
-        
+
+    def _makeAttributeList(self, attrib):
+        xpathattrib = ""
+        for attribute, value in attrib.iteritems():
+            xpathattrib = xpathattrib + "[@" + attribute + "='" + value + "']"
+        return xpathattrib
+
+
+    # This nasty little function recursively traverses
+    # an element tree to get all the available XPaths
+    # you have to pass in the pathlist you want to contain
+    # the list
+    def _getAllXPathsWithAttributes(self, pathlist, path, element):
+        children = element.getchildren()
+        if not children:
+            xpathattrib = self._makeAttributeList(element.attrib)
+
+            if path == "":
+                pathlist.append(element.tag + xpathattrib)
+            else:
+                pathlist.append(path + "/" + element.tag + xpathattrib)
+
+        else:
+            xpathattrib = self._makeAttributeList(element.attrib)
+
+            for child in children:
+                # skip the root tag
+                if element.tag == "siteData":
+                    self._getAllXPathsWithAttributes(pathlist, path, child)
+                else:
+                    # we avoid the opening / since we start below the root 
+                    if path == "":
+                        self._getAllXPathsWithAttributes(pathlist, element.tag + xpathattrib, child)
+                    else:
+                        self._getAllXPathsWithAttributes(pathlist, path + "/" + element.tag + xpathattrib, child)
+
+    # This function will break is thre is any change in the city weather
+    # XML format
+    def getAvailableForecastNames(self):
+        forecasts = self.tree.findall('forecastGroup/forecast/period')
+        forecastnames = []
+        for forecast in forecasts:
+            forecastnames.append(forecast.get("textForecastName"))
+        return forecastnames
+
+    # This function will break is thre is any change in the city weather
+    # XML format
+    def getAvailableForecastPeriods(self):
+        forecasts = self.tree.findall('forecastGroup/forecast/period')
+        forecastnames = []
+        for forecast in forecasts:
+            forecastnames.append(forecast.text)
+        return forecastnames
+
+

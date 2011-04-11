@@ -5,6 +5,9 @@
 # You may distribute under the terms of either the GNU General Public
 # License or the Apache v2 License, as specified in the README file.
 
+# This is a testing version of the weatherca CLI. It's used mostly for
+# experimentation with new features. Don't expect it to work.
+
 ## Auth.: Ian Gable
 
 import sys
@@ -13,7 +16,7 @@ from difflib import SequenceMatcher
 from data_gc_ca_api.cityweather import  City, CityIndex
 from data_gc_ca_api.__version__ import version
 from optparse import OptionParser
-
+from xml.etree.ElementTree import ElementTree
 
 def getBestGuess(city, cityList):
     # Find the closest matching city including the case where the  
@@ -39,10 +42,7 @@ def getBestGuess(city, cityList):
     if len(city) == longestMatch['length']:
         return longestMatch['city']
     else:
-        bestguess = difflib.get_close_matches(city,cityList,1)
-        if bestguess:
-            return bestguess[0]
-    return None
+        return difflib.get_close_matches(city,cityList,1)[0]
 
 
 
@@ -58,10 +58,7 @@ def main():
                                             help="the particular quatity toy want to know", metavar="QUANTITY")
     parser.add_option("-l", "--list", action="store_true", dest="list",
                                             help="Show a list of the available cities")
-    parser.add_option("-a", "--list-quantities", action="store_true", dest="list_quantities",
-                                            help="Show a list of the available quantities")
-
-
+    (options, args) = parser.parse_args()
     (options, args) = parser.parse_args()
 
     # globals
@@ -69,9 +66,6 @@ def main():
     quantity = "currentConditions/temperature"
 
     cityindex = CityIndex()
-
-    # parsing the CLI options here is getting a little convoluted
-    # it could be improved
 
     if options.list_quantities and options.list:
         parser.error("Can't use -l and -a at the same time")
@@ -116,6 +110,27 @@ def main():
         else:
            print "Do 'weatherca --list' to get a list of cities"
 
+
+    # the following prints out all the available xpaths for testing purposes
+    for xpath in cityObject.getAvailableQuantities():
+#        attributelist = ""
+#        if isinstance(xpath['attrib'],dict):
+#            for attribute,value in xpath['attrib'].iteritems():
+#                attributelist = attributelist + " " + attribute + ":" + value
+#                #print attribute
+#        if attributelist:
+#            print xpath['path'] + " " + attributelist
+#        else:
+#            print xpath['path']
+#        #print xpath[0] 
+        print xpath
+
+
+#    for forecastname in cityObject.getAvailableForecastNames():
+#        print forecastname
+#
+#    for forecastperiod in cityObject.getAvailableForecastPeriods():
+#        print forecastperiod
 
 if __name__ == "__main__":
     main()
