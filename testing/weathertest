@@ -18,7 +18,7 @@ from data_gc_ca_api.__version__ import version
 from optparse import OptionParser
 from xml.etree.ElementTree import ElementTree
 
-def getBestGuess(city, cityList):
+def get_best_guess(city, cityList):
     # Find the closest matching city including the case where the  
     # input city matches a complete sub string. For example the case where 
     # someone uses "Ottawa" but environment Canada uses the name
@@ -67,14 +67,11 @@ def main():
 
     cityindex = CityIndex()
 
-    if options.list_quantities and options.list:
-        parser.error("Can't use -l and -a at the same time")
-        sys.exit(1)
     if options.city and options.list:
         parser.error("Can't use -c and -l at the same time")
         sys.exit(1)
     if options.list:
-        for cityname in cityindex.getEnglishCityList():
+        for cityname in cityindex.english_city_list():
             print cityname
         sys.exit(1)
 
@@ -84,27 +81,20 @@ def main():
     else:
         city = options.city
 
-    if options.list_quantities and options.quantity:
-        parser.error("Can use -q and -a at the same time.")
-        sys.exit(1)
 
     if options.quantity:
         quantity = options.quantity
 
 
 
-    if cityindex.isCity(city):
-        cityObject = City(cityindex.getDataUrl(city))
-        if options.list_quantities:
-            for q in cityObject.getAvailableQuantities():
-                print q
-        else:
-            if not options.quantity:
-                print "No requested quantity given, using temperature"
-            print quantity + " is: " + cityObject.getQuantity(quantity)
+    if cityindex.is_city(city):
+        cityObject = City(cityindex.data_url(city))
+        if not options.quantity:
+            print "No requested quantity given, using temperature"
+            print quantity + " is: " + cityObject.get_quantity(quantity)
     else:
         print city + " is not available"
-        bestGuess = getBestGuess(city,cityindex.getEnglishCityList())
+        bestGuess = get_best_guess(city,cityindex.english_city_list())
         if bestGuess:
            print "Did you mean: " + bestGuess
         else:
@@ -112,7 +102,7 @@ def main():
 
 
     # the following prints out all the available xpaths for testing purposes
-    for xpath in cityObject.getAvailableQuantities():
+    for xpath in cityObject.get_available_quantities():
 #        attributelist = ""
 #        if isinstance(xpath['attrib'],dict):
 #            for attribute,value in xpath['attrib'].iteritems():
