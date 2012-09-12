@@ -90,7 +90,7 @@ def main():
 
 
     if not options.city:
-        print "No City given, using, Victoria, BC (the best city)."
+        print "No City given, using Victoria, BC (the best city)."
     else:
         city = options.city
 
