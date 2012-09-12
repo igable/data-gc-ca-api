@@ -95,7 +95,6 @@ class City():
 
     def __init__(self, dataurl):
         self.tree = ElementTree()
-
         try:
             urlhandle = urllib.urlopen(dataurl)
         except IOError:
@@ -103,6 +102,7 @@ class City():
             sys.exit(1)
 
         self.tree.parse(urlhandle)
+        self.forecast_object_list = self._make_forecast_list()
 
     def get_quantity(self,path):
         """Get the quatity contained at the XML XPath"""
@@ -176,22 +176,63 @@ class City():
                     else:
                         self._get_all_xpaths_with_attributes(pathlist, path + "/" + element.tag + xpathattrib, child)
 
-    # This function will break is thre is any change in the city weather
-    # XML format
-    def get_available_forecast_names(self):
-        forecasts = self.tree.findall('forecastGroup/forecast/period')
-        forecastnames = []
-        for forecast in forecasts:
-            forecastnames.append(forecast.get("textForecastName"))
-        return forecastnames
+    def dump_forecast(self):
+        for forecast in self.forecast_object_list:
+            period = forecast.get_period().ljust(15)
+            high = "    "
+            low = "    "
+            if forecast.has_low():
+                low = forecast.get_low().ljust(4)
+            if forecast.has_high():
+                high = forecast.get_high().ljust(4)
+            print "%s Low:%s High:%s" % (period,low,high)
 
-    # This function will break is thre is any change in the city weather
-    # XML format
-    def get_available_forecast_periods(self):
-        forecasts = self.tree.findall('forecastGroup/forecast/period')
-        forecastnames = []
-        for forecast in forecasts:
-            forecastnames.append(forecast.text)
-        return forecastnames
+
+    def _make_forecast_list(self):
+        forecasts_tree_list = self.tree.findall('forecastGroup/forecast')
+        forecast_object_list = []
+        for forecast_tree in forecasts_tree_list:
+            forecast_object_list.append(Forecast(forecast_tree))
+        return forecast_object_list
+
+class Forecast():
+
+    def __init__(self,forcast):
+        self.tree = forcast
+
+    def get_period(self):
+        return self.tree.findtext('period')
+
+    def get_text_summary(self):
+        return self.tree.findtext('textSummary')
+
+    def has_low(self):
+        low = False
+        for temperature in self.tree.findall('temperatures/temperature'):
+            if temperature.get('class') == 'low':
+                low = True
+        return low
+
+    def has_high(self):
+        high = False
+        for temperature in self.tree.findall('temperatures/temperature'):
+            if temperature.get('class') == 'high':
+                high = True
+        return high
+
+    def get_high(self):
+        if self.has_high():
+            for temperature in self.tree.findall('temperatures/temperature'):
+                if temperature.get('class') == 'high':
+                    return temperature.text
+
+    def get_low(self):
+        if self.has_low():
+            for temperature in self.tree.findall('temperatures/temperature'):
+                if temperature.get('class') == 'low':
+                    return temperature.text
+
+
+
 
 

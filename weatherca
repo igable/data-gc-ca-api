@@ -61,6 +61,10 @@ def main():
     parser.add_option("-a", "--list-quantities", action="store_true", dest="list_quantities",
                                             help="Show a list of the available quantities")
 
+    parser.add_option("-d", "--dump-forecast", action="store_true", dest="dump_forecast",
+                                            help="Dump a short forecast")
+
+
 
     (options, args) = parser.parse_args()
 
@@ -104,6 +108,9 @@ def main():
         if options.list_quantities:
             for q in cityObject.get_available_quantities():
                 print q
+        if options.dump_forecast:
+            #shouldn't be dump, should return string
+            cityObject.dump_forecast()
         else:
             if not options.quantity:
                 print "No requested quantity given, using temperature"
