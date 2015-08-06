@@ -108,11 +108,11 @@ class City():
         """Get the quatity contained at the XML XPath"""
         return self.tree.findtext(path)
 
-    def get_atrribute(self, path, attribute):
-        """Get the atribute of the element at XPath path"""
+    def get_attribute(self, path, attribute):
+        """Get the attribute of the element at XPath path"""
         element = self.tree.find(path)
-        if attribute in element:
-            return element['attribute']
+        if element is not None and element.attrib.has_key(attribute):
+            return element.attrib[attribute]
         return None
         
     def get_available_quantities(self):
