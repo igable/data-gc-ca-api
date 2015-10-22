@@ -27,7 +27,7 @@ setup(name='data-gc-ca-api',
     packages = ['data_gc_ca_api'],
     install_requires = required_packages,
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',

@@ -1,4 +1,5 @@
-# data-gc-ca-api 0.2.4 README
+# data-gc-ca-api 1.0.0 README
+[![Build Status](https://travis-ci.org/igable/data-gc-ca-api.svg?branch=master)](https://travis-ci.org/igable/data-gc-ca-api)
 
 ## Introduction
 data-gc-ca-api: a simple python api for the Canada Open Data Portal
@@ -59,6 +60,7 @@ Show the list of available retreivable quantities for Edmonton:
 
 * Ian Gable
 * Johan Harjono
+* Github user fnphat
 
 ## Data License
 
