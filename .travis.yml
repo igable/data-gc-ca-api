@@ -1,0 +1,6 @@
+sudo: false
+language: python
+python:
+  - "2.7"
+install: "pip install --allow-external elementtree --allow-unverified elementtree ."
+script: "weatherca --city Victoria --quantity currentConditions/temperature"
